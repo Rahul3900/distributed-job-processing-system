@@ -37,7 +37,6 @@ public class JobExecutionService {
         try {
             job.setStartedAt(LocalDateTime.now());
 
-            // simulate work
             Thread.sleep(200);
 
             job.setStatus(JobStatus.COMPLETED);
@@ -48,7 +47,7 @@ public class JobExecutionService {
         } finally {
             job.setExecutionTimeMs(System.currentTimeMillis() - start);
             job.setUpdatedAt(LocalDateTime.now());
-            jobRepository.save(job);   // 🔴 MUST BE HERE
+            jobRepository.save(job); 
         }
     }
 
