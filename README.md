@@ -204,20 +204,13 @@ CREATED jobs not draining | Hard concurrency limit | Capacity-based job picking 
 ```bash
 mvn spring-boot:run
 
-## Create Job API
-
-```http
+Create Job API
 POST /jobs?jobName=example-job
 
-## Monitor Jobs
-
-```sql
+Monitor Jobs
 SELECT status, COUNT(*) FROM jobs GROUP BY status;
 
-
----
-
-## ✨ Summary
+✨ Summary
 
 This project demonstrates a reliable and scalable approach to asynchronous job processing using Spring Boot with proper concurrency control and transactional safety.
 
