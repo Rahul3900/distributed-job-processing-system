@@ -34,7 +34,7 @@ This project solves these problems by **decoupling job creation from execution**
 ---
 
 ## 🧱 High-Level Architecture
-
+```text
 Client
 |
 v
@@ -54,6 +54,7 @@ Async Job Executor (@Async)
 |
 v
 Database (RUNNING → COMPLETED / FAILED)
+```
 
 ---
 
@@ -80,19 +81,27 @@ This ensures system stability and predictable throughput under load.
 ## 📂 Package Structure
 
 com.global.platform.job_processing_system
+
 │
+
 ├── controller // REST APIs
+
 ├── service // Business logic
+
 ├── scheduler // Job orchestration & retries
+
 ├── repository // Database access
+
 ├── entity // JPA entities
+
 ├── enums // Job lifecycle states
+
 └── config // Async executor configuration
 
 ---
 
 ## 📘 Job Lifecycle
-
+```text
 CREATED
 ↓
 RUNNING
@@ -100,8 +109,10 @@ RUNNING
 COMPLETED
 ↓
 FAILED → RETRYING → RUNNING
+```
 
 Each transition is **explicit, controlled, and transactional**.
+
 
 ---
 
@@ -219,6 +230,7 @@ SELECT status, COUNT(*) FROM jobs GROUP BY status;
 ## ✨ Summary
 
 This project demonstrates a reliable and scalable approach to asynchronous job processing using Spring Boot with proper concurrency control and transactional safety.
+
 
 
 
