@@ -29,24 +29,21 @@ public class RetryScheduler {
     public void retryFailedJobs() {
 
         Page<Job> failedPage =
-                jobRepository.findByStatusOrderByCreatedAtAsc(
-                        JobStatus.FAILED,
+                jobRepository.findByStatusInOrderByCreatedAtAsc(
+                        List.of(JobStatus.FAILED),
                         PageRequest.of(0, 10)
                 );
 
         List<Job> failedJobs = failedPage.getContent();
 
         for (Job job : failedJobs) {
-            if (job.getRetryCount() < job.getMaxRetries()) {
+            if (job.getRetryCount() >= job.getMaxRetries()) continue;
 
-                job.setRetryCount(job.getRetryCount() + 1);
-                job.setStatus(JobStatus.RETRYING);
-                job.setUpdatedAt(LocalDateTime.now());
+            job.setRetryCount(job.getRetryCount() + 1);
+            job.setStatus(JobStatus.RETRYING);
+            job.setUpdatedAt(LocalDateTime.now());
 
-                jobRepository.save(job);
-
-                executionService.executeJob(job.getId());
-            }
+            jobRepository.save(job);
         }
     }
 

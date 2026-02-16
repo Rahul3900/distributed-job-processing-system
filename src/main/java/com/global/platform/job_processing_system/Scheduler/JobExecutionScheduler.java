@@ -42,8 +42,8 @@ public class JobExecutionScheduler {
         }
 
         Page<Job> page =
-                jobRepository.findByStatusOrderByCreatedAtAsc(
-                        JobStatus.CREATED,
+                jobRepository.findByStatusInOrderByCreatedAtAsc(
+                       List.of(JobStatus.CREATED, JobStatus.RETRYING),
                         PageRequest.of(0, capacity)
                 );
 

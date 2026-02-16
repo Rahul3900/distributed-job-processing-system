@@ -28,7 +28,7 @@ public class JobExecutionService {
 
     @Async("taskExecutor")
     @Transactional
-    public void executeJob(Long jobId) {
+    public void executeJob(Long jobId){
 
         Job job = jobRepository.findById(jobId).orElseThrow();
 
@@ -37,7 +37,11 @@ public class JobExecutionService {
         try {
             job.setStartedAt(LocalDateTime.now());
 
+            // simulate work
             Thread.sleep(200);
+            if("FAIL".equals(job.getJobName())){
+                throw new RuntimeException("Failed!....");
+            }
 
             job.setStatus(JobStatus.COMPLETED);
             job.setCompletedAt(LocalDateTime.now());
@@ -47,7 +51,7 @@ public class JobExecutionService {
         } finally {
             job.setExecutionTimeMs(System.currentTimeMillis() - start);
             job.setUpdatedAt(LocalDateTime.now());
-            jobRepository.save(job); 
+            jobRepository.save(job);
         }
     }
 
